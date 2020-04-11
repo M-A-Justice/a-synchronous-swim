@@ -15,8 +15,7 @@
     })
   }
 
-  const random = Math.floor(Math.random() * Math.floor(10));
-  setInterval(ajaxRandomSwim, random * 1000);
+  setInterval(ajaxRandomSwim, 1 * 100);
 
 
   /////////////////////////////////////////////////////////////////////

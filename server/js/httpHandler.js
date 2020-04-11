@@ -15,9 +15,10 @@ module.exports.initialize = (queue) => {
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.writeHead(200, headers);
-  const validMessages = ['left', 'right', 'up', 'down'];
-  const random = Math.floor(Math.random() * Math.floor(validMessages.length - 1));
-  res.write(validMessages[random]);
+  // const validMessages = ['left', 'right', 'up', 'down'];
+  // const random = Math.floor(Math.random() * Math.floor(validMessages.length - 1));
+  res.write(messageQueue !== null ? messageQueue.toString() : 'null');
+  messageQueue = null;
   res.end();
   next(); // invoke next() at the end of a request to help with testing!
 };
