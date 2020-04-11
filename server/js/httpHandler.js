@@ -14,11 +14,34 @@ module.exports.initialize = (queue) => {
 
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.writeHead(200, headers);
-  // const validMessages = ['left', 'right', 'up', 'down'];
-  // const random = Math.floor(Math.random() * Math.floor(validMessages.length - 1));
-  res.write(messageQueue !== null ? messageQueue.toString() : 'null');
-  messageQueue = null;
-  res.end();
-  next(); // invoke next() at the end of a request to help with testing!
+
+  if (req.method === 'GET') {
+    // if (req.url === '/') { }
+      res.writeHead(200, headers);
+      //dequeue everything inside the msgQueue
+      let direction = messageQueue.dequeue();
+      if (direction) {
+        res.end(direction);
+      } else {
+        res.end();
+      } next();
+
+    if (req.url === '/background.jpg') {
+      res.writeHead(200, headers);
+      fs.readFile(module.exports.backgroundImageFile, (err, data) => {
+        if (err) {
+          res.writeHead(404);
+        } else {
+          res.writeHead(200, {
+            'Content-Type' : 'image/jpeg',
+            'Content-Length' : 'data.length'
+          });
+          res.write(data, 'binary');
+        }
+        res.end();
+        next();
+      });
+    };
+  }
+ // invoke next() at the end of a request to help with testing!
 };

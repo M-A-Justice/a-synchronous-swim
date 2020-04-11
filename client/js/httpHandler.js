@@ -2,7 +2,7 @@
 
   const serverUrl = 'http://127.0.0.1:3000';
 
-  const ajaxRandomSwim = (cb) => {
+  const ajaxRandomSwim = () => {
     $.ajax({
       type: 'GET',
       url: serverUrl,
@@ -10,12 +10,31 @@
       contentType: false,
       processData: false,
       success: (data) => {
-        SwimTeam.move(data);
+          SwimTeam.move(data);
+      },
+      complete: () => {
+        setTimeout(ajaxRandomSwim, 100);
       }
-    })
+
+    });
   }
 
-  setInterval(ajaxRandomSwim, 1 * 100);
+  ajaxRandomSwim();
+
+  // setInterval(ajaxRandomSwim, 200);
+
+  // const ajaxBackground = (successCB) => {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: serverUrl+'/background.jpg',
+  //     cache: false,
+  //     contentType: false,
+  //     processData: false,
+  //     success: (data) => {
+  //       $('.pool').addClass('backgro')
+  //     }
+  //   });
+  // }
 
 
   /////////////////////////////////////////////////////////////////////
@@ -59,4 +78,3 @@
   });
 
 })();
-
